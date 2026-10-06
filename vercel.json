@@ -1,0 +1,18 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "wsgi.py": {
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/download/windows",
+      "destination": "/HAMUGPT-Setup.exe"
+    },
+    {
+      "source": "/download/android",
+      "destination": "/HAMU-GPT.apk"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# HAMU-GPT - dependencies
+#
+# THIS FILE MUST STAY EMPTY OF ACTIVE REQUIREMENTS.
+#
+# The web build uses nothing but the Python standard library: the UI is plain
+# HTML/CSS/JS with no build step, and every server-side module (store, auth,
+# ads, providers, tools, verify, nexus_app, vercel_app) imports only stdlib.
+#
+# pywebview is the one third-party piece, and it is DESKTOP ONLY - it supplies
+# the native window and the WebView2 host. A server has no GUI to host.
+# `import webview` inside nexus_app sits inside a function precisely so that
+# importing the module never needs it.
+#
+# Listing it here makes the host run `pip install pywebview` during the build,
+# which drags in GUI machinery a server cannot use and can fail the deploy.
+# Leave this file as comments only.
+#
+# To run the DESKTOP build from source, install pywebview yourself:
+#     pip install pywebview

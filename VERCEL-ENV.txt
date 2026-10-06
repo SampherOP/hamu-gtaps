@@ -1,0 +1,76 @@
+HAMU-GPT - Vercel environment variables
+=======================================
+
+WHERE TO PUT THESE
+------------------
+Vercel -> your project -> Settings -> Environment Variables
+
+Add both, then Redeploy. That is it.
+
+(The token below is generated straight from server.json, so the two can never
+disagree. If you ever rotate the token, regenerate this file.)
+
+
+THE VALUES
+----------
+
+KV_REST_API_URL
+https://wanted-lemming-196000.upstash.io
+
+KV_REST_API_TOKEN
+gQAAAAAAAv2gAAIgcDJiYTQ4MGEwMmQxNzg0ZGY5OGJlOWEyODM5OTgwZGMzOQ
+
+
+WHY THESE NAMES
+---------------
+Vercel's Upstash integration sets exactly these two names, so they are the ones
+that "just work" if you connect Upstash through Vercel's own integration.
+
+The app also accepts these, if you prefer:
+
+    UPSTASH_REDIS_REST_URL     / UPSTASH_REDIS_REST_TOKEN
+    HAMU_KV_URL                / HAMU_KV_TOKEN
+
+
+WHY YOU NEED THEM AT ALL
+------------------------
+Vercel's filesystem is wiped on every cold start. If accounts live only in
+files, EVERY USER IS DELETED within minutes of signing up.
+
+The key-value store is not an optimisation. It is the only thing that makes
+accounts survive.
+
+Check which one the app is using:
+
+    python -c "import store; print(store.kv_kind())"
+
+    "key-value store (Upstash Redis)"          <- good
+    "files (no key-value store configured)"    <- accounts will vanish
+
+
+server.json vs THESE VARIABLES
+------------------------------
+server.json in this folder carries the same URL and token, so the site works
+even if you skip this step.
+
+The environment variables WIN over the file. So the safe routine is:
+
+    1. add the two variables above in Vercel
+    2. redeploy and confirm accounts persist
+    3. delete server.json from the repo
+    4. add "server.json" to .gitignore (the line is already there, commented)
+
+Nothing breaks, because the variables take priority anyway.
+
+
+IF THE TOKEN EVER LEAKS
+-----------------------
+Whoever reads it can read and write EVERY account: emails, password hashes,
+usage, chat threads.
+
+   1. Upstash console -> your database -> Rotate token
+   2. Update KV_REST_API_TOKEN in Vercel
+   3. Redeploy
+
+Do that immediately if the repository is ever made public, or shared with
+anyone you do not fully trust.

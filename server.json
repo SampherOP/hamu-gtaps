@@ -1,0 +1,5 @@
+{
+  "use_kv": true,
+  "kv_url": "https://wanted-lemming-196000.upstash.io",
+  "kv_token": "gQAAAAAAAv2gAAIgcDJiYTQ4MGEwMmQxNzg0ZGY5OGJlOWEyODM5OTgwZGMzOQ"
+}
